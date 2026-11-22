@@ -1,1 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
 
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0,
+          maximum-scale=1.0, viewport-fit=cover">
+
+    <meta name="theme-color" content="#08090d">
+    <meta name="description"
+          content="Rishi Music - Personal Offline Audio Station">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent">
+
+    <title>RISHI MUSIC</title>
+
+    <link rel="manifest" href="./manifest.json">
+    <link rel="stylesheet" href="./style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+<div class="app-wrapper">
+
+    <!-- INSTALL BAR -->
+
+    <div id="installBar" class="install-bar">
+        <span>Install Rishi Music</span>
+        <button id="installTriggerBtn">Install</button>
+    </div>
+
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="header-top-row">
+
+            <div>
+                <h1>
+                    <span class="logo-icon">♫</span>
+                    RISHI MUSIC
+                </h1>
+
+                <p class="subtitle">
+                    PERSONAL AUDIO STATION
+                </p>
+            </div>
+
+            <button id="settingsBtn"
+                    class="settings-btn"
+                    aria-label="Settings">
+                ⚙
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- IMPORT -->
+
+    <button id="importBtn" class="import-btn">
+        ＋ Import Songs
+    </button>
+
+    <input
+        type="file"
+        id="fileSelector"
+        accept="audio/*,.mp3,.m4a,.aac,.wav,.flac,.ogg,.opus,.webm"
+        multiple
+        hidden
+    >
+
+
+    <!-- DIRECTOR FILTER -->
+
+    <section class="filter-container">
+
+        <label for="directorFilter">
+            MUSIC DIRECTOR
+        </label>
+
+        <div class="custom-select-box">
+
+            <select id="directorFilter">
+                <option value="All">All Directors</option>
+            </select>
+
+        </div>
+
+    </section>
+
+
+    <!-- LIBRARY HEADER -->
+
+    <section class="list-header">
+
+        <div>
+            <p class="section-eyebrow">YOUR COLLECTION</p>
+            <h2>My Library</h2>
+        </div>
+
+        <div class="search-input-wrapper">
+            <span>⌕</span>
+
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="Search songs..."
+                autocomplete="off"
+            >
+        </div>
+
+    </section>
+
+
+    <!-- TRACKS -->
+
+    <section id="tracksContainer"
+             class="tracks-container">
+
+        <div class="empty-state">
+            Your music library will appear here.
+        </div>
+
+    </section>
+
+
+    <!-- EDIT MODAL -->
+
+    <div id="editModal" class="modal-overlay">
+
+        <div class="modal-card">
+
+            <h3>Edit Song Details</h3>
+
+            <div class="modal-field">
+
+                <label for="editTitleInput">
+                    Song Title
+                </label>
+
+                <input
+                    type="text"
+                    id="editTitleInput"
+                    placeholder="Enter song title"
+                >
+
+            </div>
+
+            <div class="modal-field">
+
+                <label for="editDirectorInput">
+                    Music Director
+                </label>
+
+                <input
+                    type="text"
+                    id="editDirectorInput"
+                    placeholder="Enter music director"
+                >
+
+            </div>
+
+            <div class="modal-btn-row">
+
+                <button id="cancelEditBtn"
+                        class="modal-cancel">
+                    Cancel
+                </button>
+
+                <button id="saveEditBtn"
+                        class="modal-save">
+                    Save Changes
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- BULK IMPORT MODAL -->
+
+    <div id="bulkDirectorModal"
+         class="modal-overlay">
+
+        <div class="modal-card">
+
+            <h3>Music Director</h3>
+
+            <p class="modal-description">
+                Enter the music director for the selected songs.
+            </p>
+
+            <div class="modal-field">
+
+                <label for="bulkDirectorInput">
+                    Director Name
+                </label>
+
+                <input
+                    type="text"
+                    id="bulkDirectorInput"
+                    placeholder="Enter director name"
+                >
+
+            </div>
+
+            <div class="modal-btn-row">
+
+                <button id="skipBulkDirectorBtn"
+                        class="modal-cancel">
+                    Skip
+                </button>
+
+                <button id="saveBulkDirectorBtn"
+                        class="modal-save">
+                    Continue
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SETTINGS MODAL -->
+
+    <div id="settingsModal"
+         class="modal-overlay settings-overlay"
+         aria-hidden="true">
+
+        <div class="modal-card settings-card">
+
+            <div class="settings-heading-row">
+
+                <div>
+                    <h3>Settings</h3>
+
+                    <p class="settings-intro">
+                        Customize your Rishi Music experience.
+                    </p>
+                </div>
+
+                <button id="closeSettingsBtn"
+                        class="settings-close">
+                    ×
+                </button>
+
+            </div>
+
+
+            <!-- APPEARANCE -->
+
+            <section class="settings-section">
+
+                <h4>Appearance</h4>
+
+                <div class="setting-row">
+
+                    <div>
+                        <strong>Theme</strong>
+                        <small>Choose your app appearance</small>
+                    </div>
+
+                    <select id="themeSelect"
+                            class="settings-select">
+
+                        <option value="dark">Dark</option>
+                        <option value="light">Light</option>
+
+                    </select>
+
+                </div>
+
+                <div class="setting-row">
+
+                    <div>
+                        <strong>Accent Colour</strong>
+                        <small>Customize your blue theme</small>
+                    </div>
+
+                    <input
+                        type="color"
+                        id="accentColor"
+                        value="#1d72fe"
+                    >
+
+                </div>
+
+                <div class="colour-code-row">
+
+                    HEX Colour
+
+                    <input
+                        type="text"
+                        id="accentHex"
+                        value="#1D72FE"
+                        maxlength="7"
+                    >
+
+                </div>
+
+            </section>
+
+
+            <!-- PLAYBACK -->
+
+            <section class="settings-section">
+
+                <h4>Playback</h4>
+
+                <div class="setting-row">
+
+                    <div>
+                        <strong>Playback Speed</strong>
+                        <small>Adjust audio speed</small>
+                    </div>
+
+                    <select id="playbackSpeed"
+                            class="settings-select">
+
+                        <option value="0.5">0.5x</option>
+                        <option value="0.75">0.75x</option>
+                        <option value="1" selected>1.0x</option>
+                        <option value="1.25">1.25x</option>
+                        <option value="1.5">1.5x</option>
+                        <option value="1.75">1.75x</option>
+                        <option value="2">2.0x</option>
+
+                    </select>
+
+                </div>
+
+                <div class="setting-row">
+
+                    <div>
+                        <strong>Default Volume</strong>
+                        <small id="volumeValue">80%</small>
+                    </div>
+
+                    <input
+                        type="range"
+                        id="defaultVolume"
+                        min="0"
+                        max="100"
+                        value="80"
+                    >
+
+                </div>
+
+            </section>
+
+
+            <!-- STORAGE -->
+
+            <section class="settings-section">
+
+                <h4>Music Library</h4>
+
+                <div class="storage-info">
+
+                    <span>Total Songs</span>
+
+                    <strong id="settingsTrackCount">
+                        0
+                    </strong>
+
+                </div>
+
+                <div class="storage-info">
+
+                    <span>Storage Used</span>
+
+                    <strong id="storageUsage">
+                        Calculating...
+                    </strong>
+
+                </div>
+
+                <p class="settings-note">
+                    Your imported songs are stored in your existing
+                    local music database. Do not clear browser storage
+                    if you want to keep your music library.
+                </p>
+
+            </section>
+
+
+            <!-- ACTIONS -->
+
+            <section class="settings-actions">
+
+                <button id="resetSettingsBtn"
+                        class="reset-settings-btn">
+                    Reset Settings
+                </button>
+
+                <button id="doneSettingsBtn"
+                        class="modal-save">
+                    Done
+                </button>
+
+            </section>
+
+        </div>
+
+    </div>
+
+
+    <!-- BOTTOM MUSIC PLAYER -->
+
+    <section class="bottom-dock">
+
+        <div class="dock-meta">
+
+            <div id="dockTitle" class="dock-title">
+                No Track Playing
+            </div>
+
+            <div id="dockSubtitle" class="dock-subtitle">
+                Select a song from your library
+            </div>
+
+        </div>
+
+
+        <div class="dock-controls">
+
+            <button id="prevBtn"
+                    class="dock-control"
+                    aria-label="Previous">
+                ⏮
+            </button>
+
+            <button id="mainPlayBtn"
+                    class="main-play-btn"
+                    aria-label="Play">
+
+                <span id="mainPlayIcon">▶</span>
+
+            </button>
+
+            <button id="nextBtn"
+                    class="dock-control"
+                    aria-label="Next">
+                ⏭
+            </button>
+
+        </div>
+
+
+        <div class="progress-row">
+
+            <span id="currentTime">0:00</span>
+
+            <input
+                type="range"
+                id="progressBar"
+                min="0"
+                max="100"
+                value="0"
+                step="0.1"
+            >
+
+            <span id="duration">0:00</span>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- AUDIO ENGINE -->
+
+<audio
+    id="audioEl"
+    preload="none"
+    playsinline
+></audio>
+
+
+<!-- APP SCRIPT -->
+
+<script src="./app.js"></script>
+
+</body>
+</html>
